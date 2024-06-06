@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: Report-Generator
+Version: 0.0.1
+Author: Barath
+Author-email: paramasivanbarath1011@gmail.com
+Requires-Dist: youtube_transcript_api
+Requires-Dist: streamlit
+Requires-Dist: python-dotenv
+Requires-Dist: google-generativeai
+Requires-Dist: pathlib

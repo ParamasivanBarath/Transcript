@@ -1,0 +1,6 @@
+setup.py
+Report_Generator.egg-info/PKG-INFO
+Report_Generator.egg-info/SOURCES.txt
+Report_Generator.egg-info/dependency_links.txt
+Report_Generator.egg-info/requires.txt
+Report_Generator.egg-info/top_level.txt

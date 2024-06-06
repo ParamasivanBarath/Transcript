@@ -1,0 +1,9 @@
+youtube_transcript_api
+streamlit
+google-generativeai
+google-cloud
+google-cloud-speech
+python-dotenv
+pathlib
+
+-e.
