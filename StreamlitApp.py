@@ -9,8 +9,6 @@ import io
 
 load_dotenv()  # Load all the environment variables
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-
 prompt = """ You are a YouTube video summarizer. You will be taking the transcript 
 text from a chess tutorial video and summarizing the entire video. Your summary should 
 provide the key points and important details, focusing on the positions of the chess 
@@ -50,6 +48,20 @@ Focus on summarizing the sequence of moves and their implications on the game.
 Ensure the summary is coherent and provides a clear understanding of the tutorial's key points.
 
 """
+
+# Function to check if the API key is valid
+def is_valid_api_key(api_key):
+    # Implement your logic to validate the API key here
+    # For simplicity, we'll assume any non-empty string is a valid API key
+    return api_key.strip() != ""
+
+# Function to configure Generative AI API key
+def configure_generative_ai(api_key):
+    if is_valid_api_key(api_key):
+        genai.configure(api_key=api_key)
+        return True
+    else:
+        return False
 
 # Function to extract the video ID from a YouTube URL
 def extract_video_id(url):
@@ -91,17 +103,21 @@ def convert_to_csv(response):
     return csv_buffer.getvalue()
 
 st.sidebar.title("Rishi Academy")
-youtube_link = st.sidebar.text_input("Enter YouTube Video Link:")
-
-video_id = None
-if youtube_link:
-    video_id = extract_video_id(youtube_link)
-    if video_id:
-        st.sidebar.image(f"http://img.youtube.com/vi/{video_id}/0.jpg", use_column_width=True)
+api_key = st.sidebar.text_input("Enter Google API Key:", type="password")
+if st.sidebar.button("Submit"):
+    if configure_generative_ai(api_key):
+        st.sidebar.success("API Key is valid. You can now proceed.")
     else:
-        st.sidebar.error("Invalid YouTube link. Please provide a valid URL.")
+        st.sidebar.error("Invalid API Key. Please provide a valid Google API Key.")
 
-if st.sidebar.button("Get Detailed Notes"):
+youtube_link = None
+if st.sidebar.checkbox("Enter YouTube Video Link"):
+    youtube_link = st.sidebar.text_input("YouTube Video Link:")
+    if not youtube_link:
+        st.sidebar.error("Please enter a valid YouTube video link.")
+
+if st.sidebar.button("Get Detailed Notes") and youtube_link:
+    video_id = extract_video_id(youtube_link)
     if not video_id:
         st.sidebar.error("Invalid YouTube link. Please provide a valid URL.")
     else:
